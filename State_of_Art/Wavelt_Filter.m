@@ -21,9 +21,9 @@ for k = 1:length(myFiles)
                 end
             end
         end
-        dwtmode('per');
+        % dwtmode('per');
         [thr,sorh,keepapp] = ddencmp('den','wv',I);
-        denoisedI_wavelt = wdencmp('gbl',double(I),'sym4',15,thr,sorh,keepapp);
+        denoisedI_wavelt = wdencmp('gbl',double(I),'sym6',15,thr,sorh,keepapp);
         fprintf('%d. %s\n',k-2, baseFileName);
         denoisedName_wavelt = strcat(resultDirWavelt,"\Wavelt_denoised_",baseFileName);
         for x = 1:length(denoisedI_wavelt(:,1))
