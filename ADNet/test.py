@@ -23,7 +23,7 @@ def normalize(data):
 def main():
 
     results_dir = 'results'
-    extension = '*.bmp'#'*.JPG'#'*.png' # '*.bmp'
+    extension = '*.jpeg'#'*.JPG'#'*.png' # '*.bmp'
     model_name='g_25' #To save results
     PSNR_list = []
     times_list = []
@@ -71,7 +71,7 @@ def main():
     resultFile =  results_dir+'/'+model_name+'_denoising_process_data.txt'
     resulFileHandler = open(resultFile,"w")
     resulFileHandler.write('FileName                PSNR[dB]            DenoisingTime[s] \n')
-    for i in range(1,len(PSNR_list)):
+    for i in range(0,len(PSNR_list)):
         resulFileHandler.write(str(files_source[i])+' '+str(PSNR_list[i])+' '+str(times_list[i])+'\n')
     resulFileHandler.close()
 

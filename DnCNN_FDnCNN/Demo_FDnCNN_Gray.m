@@ -16,7 +16,7 @@ addpath(fullfile('utilities'));
 
 folderModel = 'models';
 folderTest  = 'data';
-folderResult= 'results_FDnCNN_gray';
+folderResult= 'results';
 
 showResult  = 1;
 pauseTime   = 0;
@@ -77,7 +77,7 @@ PSNRs = PSNRs';
 SSIMs = SSIMs';
 Times = Times';
 T= table(Names,PSNRs,SSIMs,Times);
-writetable(T,'results.txt');
+writetable(T,'results/results.txt');
 
 
 

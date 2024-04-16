@@ -8,8 +8,12 @@ inż. Szymon Murawski
    - results - odszumione obrazy + plik z wynikami PSNR,...
    - models.py - implementacja sieci
    - test.py - algorytm odszumiający
-2. DNCNN_Matlab:
-   - potrzeby własne, stary kod, nie ruszać
+2. deSpeckNet-master:
+   - uruchamiać env.m, potem DeSpeckNet.m
+   - Wymaga modyfikacji w MatConvNet:
+	W c:\Users\szymo\MatConvNet\matlab\+dagnn\ wrzucić Multiply.m
+	W c:\Users\szymo\MatConvNet\matlab\+dagnn\Loss.m zmienić wszędzie vl_nnloss na vl_nnloss_SM
+	Dorzucić vl_nnloss_SM.m do \c:\Users\szymo\MatConvNet\matlab\ 
 3. DnCNN_FDnCNN:
    - data - przykładowe obrazy
    - model - modele
