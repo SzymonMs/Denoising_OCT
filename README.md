@@ -25,4 +25,4 @@ inż. Szymon Murawski
    - env.m - kod konfiguracji środowiska - musi być odpalony pierwszy !!! Przed trzeba zrobić to co tu: https://www.vlfeat.org/matconvnet/install/#installing-and-compiling-the-library
    - results.txt - plik z wynikami PSNR,...
 4. Sate_of_Art:
-   - filtr uśredniający, medianowy, transformacja zafalowaniowa
+   - filtr uśredniający, medianowy, transformacja zafalowaniowa, dyfuzja anizotropowa
