@@ -16,8 +16,8 @@ for k = 1:length(myFiles)
         for x = 1:length(I(:,1))
             for y = 1:length(I(1,:))
                 I(x,y) = log(I(x,y));
-                if abs(I(x,y)) > 5
-                    I(x,y) = 5;
+                if abs(log(I(x,y))) > 5
+                    I(x,y) = -1;
                 end
             end
         end
