@@ -14,7 +14,7 @@ global sigmas;
 sigmas = 0.05;
 addpath(fullfile('utilities'));
 
-folderModel = 'models';
+folderModel = 'model';
 folderTest  = 'data';
 folderResult= 'results';
 

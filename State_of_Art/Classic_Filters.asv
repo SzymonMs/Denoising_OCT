@@ -4,12 +4,7 @@ myDir = 'data';
 resultDirAverage = 'Average_Filter';
 resultDirMedian = 'Median_Filter';
 filePattern = fullfile(myDir);
-% read images
-ext         =  {'*.jpeg','*.png','*.bmp'};
-myFiles   =  [];
-for i = 1 : length(ext)
-    myFiles = cat(1,myFiles, dir(fullfile(myDir,ext{i})));
-end
+myFiles = dir(filePattern);
 n = 9;
 m = 9;
 
@@ -38,19 +33,19 @@ for k = 1:length(myFiles)
         denoisedI_med = medfilt2(I,[n m]);
         endtime_med = toc;
         [PSNRCur_Med, SSIMCur_Med] = Cal_PSNRSSIM(im2uint8(I),im2uint8(denoisedI_med),0,0);
-        [PSNRCur_Avg, SSIMCur_Avg] = Cal_PSNRSSIM(im2uint8(I),im2uint8(denoisedI_avg),0,0);
-        fprintf('%d. %s\n',k, baseFileName);
+        [PSNRCur_Avg, SSIMCur_Avg] = Cal_PSNRSSIM(im2uint8(label),im2uint8(de),0,0);
+        fprintf('%d. %s\n',k-2, baseFileName);
         denoisedName_avg = strcat(resultDirAverage,"\Avg_denoised_",baseFileName);
         denoisedName_med = strcat(resultDirMedian,"\Med_denoised_",baseFileName);
         imwrite(denoisedI_avg,denoisedName_avg);
         imwrite(denoisedI_med,denoisedName_med);
-        PSNRs_Med(k) = PSNRCur_Med;
-        SSIMs_Med(k) = SSIMCur_Med;
-        Times_Med(k) = endtime_med;
-        PSNRs_Avg(k) = PSNRCur_Avg;
-        SSIMs_Avg(k) = SSIMCur_Avg;
-        Times_Avg(k) = endtime_avg;
-        Names{end+1} = myFiles(k).name;
+        PSNRs_Med(i) = PSNRCur_Med;
+        SSIMs_Med(i) = SSIMCur_Med;
+        Times_Med(i) = endtime_med;
+        PSNRs_Avg(i) = PSNRCur_Avg;
+        SSIMs_Avg(i) = SSIMCur_Avg;
+        Times_Avg(i) = endTime_avg;
+        Names{end+1} = filePaths(i).name;
       end
 end
 Names = Names';

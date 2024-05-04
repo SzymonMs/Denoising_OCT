@@ -1,6 +1,6 @@
 mex -setup;
 mex -setup C++;
-cd( fullfile( 'c:\Users\szymo\MatConvNet' ));
+cd( fullfile( 'c:\Users\szymo\MatConvNet' )); % Ścieżka do MatConvNet
 addpath matlab;
 vl_compilenn;
 % vl_compilenn('enableGpu', true, 'cudaRoot', 'c:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.4\','cudaMethod', 'nvcc')
