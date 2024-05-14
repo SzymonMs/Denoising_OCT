@@ -57,10 +57,9 @@ end
 
 %initialize constants
 if nargin < 2        
-    
     % resize the image if 1st value set to 'true',
     % with the second value to be the scale.
-    params.isResize = [true 0.5];
+    params.isResize = [false 0.5];
     
     % parameter for smothing the images.
     params.filter0Params = [5 5 1];
@@ -156,6 +155,7 @@ if isPlot,
             plotInd = round(numel(retinalLayers(layerToPlotInd).pathX)/2);            
             text(retinalLayers(layerToPlotInd).pathY(plotInd)+hOffset(k),retinalLayers(layerToPlotInd).pathX(plotInd)+params.txtOffset,retinalLayers(layerToPlotInd).name,'color',colora,'linewidth',2);            
             drawnow;
+
         end % of if ~isempty            
 
     end % of k
