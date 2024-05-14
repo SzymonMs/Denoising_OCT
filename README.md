@@ -2,6 +2,8 @@
 inż. Szymon Murawski
 ### Opis plików/katalogów
 
+
+SEGMENTACJA  - MATLAB 2019b zadziałało, MATLAB 2023b nie zadziałało
 1. AdNet:
    - data - przykładowe obrazy
    - g15, g25, g50, gblind - modele
