@@ -8,8 +8,9 @@ clear all; clc;
 OCTtoSegmentationPath = 'data';
 SegmentationResults = 'segmentation_results';
 ImagesAfterSegmentation = 'after_segmentation';
-ext         =  {'*.jpeg','*.png','*.bmp','*.tif'};
+ext         =  {'*.jpeg','*.png','*.bmp','*.tif','*tiff'};
 myFiles   =  [];
+names = ["ILM","ISOS","RPE","INLOPL","NFLGCL","IPLINL","OPLONL"];
 for i = 1 : length(ext)
     myFiles = cat(1,myFiles, dir(fullfile(OCTtoSegmentationPath,ext{i})));
 end
@@ -26,25 +27,26 @@ for k = 1:length(myFiles)
             img = img(:,:,1);
         end
         img = double(img);
-        szImg = size(img);
-        yrange = 1:szImg(1);
-        xrange = 1:szImg(2);
-        
+
         tic;
         [retinalLayers, params] = getRetinalLayers(img);
         endtime = toc;
         
-        params.yrange = yrange;
-        params.xrange = xrange;
-        imageLayer(i).imagePath = fullFileName;
-        imageLayer(i).retinalLayers = retinalLayers;    
-        imageLayer(i).params = params;
-        
         filename = strcat(ImagesAfterSegmentation,'/',baseFileName,'_afterSegmentation.png');
         saveas(gcf, filename);
-        
-        filename = [imageLayer(1).imagePath strcat(SegmentationResults,'/',baseFileName,'_Segment.mat')];
-        save(filename, 'imageLayer');
+        OCTLayers = struct(names(1),[],names(2),[],names(3),[],names(4),[],names(5),[],names(6),[],names(7),[]);
+        for j = 1:size(retinalLayers,2)
+            xx = []
+            for i = 1:size(retinalLayers(j).pathY,2)-1
+                if retinalLayers(j).pathY(i) ~= retinalLayers(j).pathY(i+1)
+                    xx = [xx,retinalLayers(j).pathX(i)];
+                end
+            end
+            xx = [xx(1:end-1)];
+            OCTLayers.(names{j}) = xx;
+        end
+        filename = [strcat(SegmentationResults,'/',baseFileName,'_Segment.mat')];
+        save(filename, 'OCTLayers');
         
         Times(k) = endtime;
         Names{end+1} = myFiles(k).name;
@@ -53,4 +55,4 @@ end
 Names = Names';
 Times = Times';
 T= table(Names,Times);
-writetable(T,strcat(ImagesAfterSegmentation,'/data.txt'));
+writetable(T,strcat(ImagesAfterSegmentation,'/data.csv'));

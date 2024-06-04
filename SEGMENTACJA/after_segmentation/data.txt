@@ -1,6 +1,0 @@
-Names,Times
-NORMAL22_denoised.jpeg,3.5196438
-patient1_raw0006_denoised.png,2.7204709
-g_25_denoised_skan59.bmp,5.6884926
-skan59.bmp,3.2588621
-1_Averaged Image.tif,2.2321127
