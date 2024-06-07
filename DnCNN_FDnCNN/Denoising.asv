@@ -1,7 +1,10 @@
-addpath(fullfile('utilities'));
 net = denoisingNetwork('DnCNN');
 myDir = 'data';
-resultDir = 'OCTIDresults_DnCNN';
+resultDir = 'results_DnCNN';
+filePattern = fullfile(myDir);
+myFiles = dir(filePattern);
+
+
 files = dir(myDir);
 isSubdir = [files.isdir] & ~ismember({files.name}, {'.', '..'});
 subdirs = strings(sum(isSubdir), 1);
@@ -25,37 +28,33 @@ if ~exist(resultDirAverage, 'dir')
 end
 
 ext         =  {'*.jpeg','*.png','*.bmp','*.tiff'};
-myFiles = [];
+filePaths   =  [];
 for i = 1 : length(ext)
     myFiles = cat(1,myFiles, dir(fullfile(myDir,ext{i})));
 end
-PSNRs = zeros(1,length(myFiles));
-SSIMs = zeros(1,length(myFiles));
+PSNRs = zeros(1,length(filePaths));
+SSIMs = zeros(1,length(filePaths));
 Names = {};
-numberOfFiles = length(myFiles);
-Times = zeros(1,length(myFiles));
+numberOfFiles = length(filePaths);
+Times = zeros(1,length(filePaths));
 for i = 1:numberOfFiles
-      baseFileName = myFiles(i).name;
+      baseFileName = myFiles(k).name;
       fullFileName = fullfile(myDir, baseFileName);
       if length(baseFileName) > 3
         I = imread(fullFileName) ;
         if size(I, 3) == 3
             I = rgb2gray(I);
         end
-            tic;
-            denoisedI = denoiseImage(I,net);
-            endTime = toc;
-            denoisedName = strcat(resultDirAverage,"\",baseFileName);
-            imwrite(denoisedI,denoisedName)
-            [PSNRCur, SSIMCur] = Cal_PSNRSSIM(im2uint8(I),im2uint8(denoisedI),0,0);
+        denoisedI = denoiseImage(I,net);
+        fprintf('%d. %s\n',k-2, baseFileName);
+        denoisedName = strcat(resultDir,"\denoised_",baseFileName);
+        imwrite(denoisedI,denoisedName)
             PSNRs(i) = PSNRCur;
-            SSIMs(i) = SSIMCur;
-            Times(i) = endTime;
-            Names{end+1} = myFiles(i).name;
+    SSIMs(i) = SSIMCur;
+    Times(i) = endTime;
+    Names{end+1} = filePaths(i).name;
       end
-
-end
-Names = Names';
+      Names = Names';
 PSNRs = PSNRs';
 SSIMs = SSIMs';
 Times = Times';
@@ -65,8 +64,13 @@ AVGPSNR(xx) = mean(PSNRs);
 AVGSSIM(xx) = mean(SSIMs);
 AVGTimes(xx) = mean(Times);
 end
+
 AVGPSNR=AVGPSNR';
 AVGSSIM=AVGSSIM';
 AVGTimes=AVGTimes';
 T= table(AVGPSNR,AVGSSIM,AVGTimes);
 writetable(T,strcat(resultDir,'/DnCNNtResults.csv'));
+
+
+
+end

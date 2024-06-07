@@ -15,25 +15,44 @@ sigmas = 0.05;
 addpath(fullfile('utilities'));
 
 folderModel = 'model';
-folderTest  = 'data';
-folderResult= 'results';
+folderResult= 'OCTIDresults';
 
 showResult  = 1;
 pauseTime   = 0;
 
-folderResultCur       =  fullfile(folderResult);
-if ~isdir(folderResultCur)
-    mkdir(folderResultCur)
+directory = 'data';
+files = dir(directory);
+isSubdir = [files.isdir] & ~ismember({files.name}, {'.', '..'});
+subdirs = strings(sum(isSubdir), 1);
+idx = 1;
+for i = 1:length(files)
+    if isSubdir(i)
+        subdirs(idx) = fullfile(directory, files(i).name);
+        idx = idx + 1;
+    end
 end
+AVGPSNR = zeros(1,size(subdirs,1));
+AVGSSIM= zeros(1,size(subdirs,1));
+AVGTimes = zeros(1,size(subdirs,1));
+for xx = 1:size(subdirs,1)
+myDir = subdirs(xx);
+resultDirAverage = strcat(folderResult,'\',subdirs(xx));
+if ~exist(resultDirAverage, 'dir')
+    mkdir(resultDirAverage);
+end
+% resultDirAverage       =  fullfile(folderResult);
+% if ~isdir(resultDirAverage)
+%     mkdir(resultDirAverage)
+% end
 
-load(fullfile('model','FDnCNN_gray.mat'));
+load(fullfile('model','FDnCNN_Clip_gray.mat')); 
 net = vl_simplenn_tidy(net);
 
 % read images
-ext         =  {'*.jpeg','*.png','*.bmp'};
+ext         =  {'*.jpeg','*.png','*.bmp','*.tiff'};
 filePaths   =  [];
 for i = 1 : length(ext)
-    filePaths = cat(1,filePaths, dir(fullfile(folderTest,ext{i})));
+    filePaths = cat(1,filePaths, dir(fullfile(myDir,ext{i})));
 end
 
 % PSNR and SSIM
@@ -45,7 +64,7 @@ Times = zeros(1,length(filePaths));
 for i = 1:numberOfFiles
     
     % read images
-    label = imread(fullfile(folderTest,filePaths(i).name));
+    label = imread(fullfile(myDir,filePaths(i).name));
     [w,h,~]=size(label);
     if size(label,3)==3
         label = rgb2gray(label);
@@ -64,9 +83,9 @@ for i = 1:numberOfFiles
     % calculate PSNR, SSIM and save results
     [PSNRCur, SSIMCur] = Cal_PSNRSSIM(im2uint8(label),im2uint8(output),0,0);
     if showResult
-        imwrite(im2uint8(output), fullfile(folderResultCur, [nameCur,'_denoised', extCur] ));
+        imwrite(im2uint8(output), fullfile(resultDirAverage, [nameCur, extCur] ));
     end
-    disp([filePaths(i).name,'    ',num2str(PSNRCur,'%2.2f'),'dB','    ',num2str(SSIMCur,'%2.4f'),'    ',num2str(endTime,'%2.4f'),'s'])
+    disp([filePaths(i).name,'    ',num2str(PSNRCur,'%2.2f'),'dB','    ',num2str(SSIMCur,'%2.4f'),'    ',num2str(endTime,'%2.4f'),'s']);
     PSNRs(i) = PSNRCur;
     SSIMs(i) = SSIMCur;
     Times(i) = endTime;
@@ -77,7 +96,14 @@ PSNRs = PSNRs';
 SSIMs = SSIMs';
 Times = Times';
 T= table(Names,PSNRs,SSIMs,Times);
-writetable(T,'results/results.txt');
+writetable(T,strcat(resultDirAverage,'/results.csv'));
+AVGPSNR(xx) = mean(PSNRs);
+AVGSSIM(xx) = mean(SSIMs);
+AVGTimes(xx) = mean(Times);
+end
 
-
-
+AVGPSNR=AVGPSNR';
+AVGSSIM=AVGSSIM';
+AVGTimes=AVGTimes';
+T= table(AVGPSNR,AVGSSIM,AVGTimes);
+writetable(T,strcat(folderResult,'/FFDNetResults.csv'));
