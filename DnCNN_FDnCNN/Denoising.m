@@ -12,18 +12,15 @@ for i = 1:length(files)
         idx = idx + 1;
     end
 end
-
 AVGPSNR = zeros(1,size(subdirs,1));
 AVGSSIM= zeros(1,size(subdirs,1));
 AVGTimes = zeros(1,size(subdirs,1));
-
 for xx = 1:size(subdirs,1)
 myDir = subdirs(xx);
 resultDirAverage = strcat(resultDir,'\',subdirs(xx));
 if ~exist(resultDirAverage, 'dir')
     mkdir(resultDirAverage);
 end
-
 ext         =  {'*.jpeg','*.png','*.bmp','*.tiff'};
 myFiles = [];
 for i = 1 : length(ext)
@@ -53,7 +50,6 @@ for i = 1:numberOfFiles
             Times(i) = endTime;
             Names{end+1} = myFiles(i).name;
       end
-
 end
 Names = Names';
 PSNRs = PSNRs';
