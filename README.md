@@ -1,4 +1,4 @@
-# Repozytorium pracy magiserskiej - ReadMe_wersja_robocza
+# Repozytorium pracy magiserskiej 
 inż. Szymon Murawski
 ### Opis plików/katalogów
 
