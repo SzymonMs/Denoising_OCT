@@ -86,7 +86,7 @@ if nargin < 2
     % parameters for ploting
     params.txtOffset = -7;
     colorarr=colormap('jet'); 
-    params.colorarr=colorarr(64:-8:1,:);
+    params.colorarr=colorarr(255:-16:1,:);
     
     % a constant (not used in this function, used in 'octSegmentationGUI.m'.)
     params.smallIncre = 2;    
@@ -142,8 +142,8 @@ if isPlot,
     imagesc(img);
     axis image; colormap('gray'); hold on; drawnow;
 
-    layersToPlot = {'ilm' 'isos' 'rpe' 'inlopl' 'nflgcl' 'iplinl' 'oplonl'};% 'rpeSmooth'}; %
-    hOffset =       [40    0      40    0        0        40       -40      -40]; % for displaying text
+    layersToPlot = {'ilm' 'isos' 'rpe' 'inlopl'  'iplinl'};% 'rpeSmooth'}; %
+    hOffset =       [80    0      40    0                80       -40      ]; % for displaying text
     for k = 1:numel(layersToPlot)
 
         matchedLayers = strcmpi(layersToPlot{k},{retinalLayers(:).name});

@@ -3,8 +3,13 @@
 %   {{Caserel}}
 %   Copyright (C) {{2013}}  {{Pangyu Teng}}
 
+
 clear all; clc;
 
+D = ['data'];
+R = ['result_to_images\'];
+
+for kkk = 1:size(D,1)
 directory = 'data';
 ImagesAfterSegmentation = 'after_segmentation';
 
@@ -23,7 +28,7 @@ ext         =  {'*.jpeg','*.png','*.bmp','*.tif','*tiff'};
 AVGTimes = zeros(1,size(subdirs,1));
 for xxx = 1:size(subdirs,1)
 myDir = subdirs(xxx);
-SegmentationResults = strcat('segmentation_results\',subdirs(xxx));
+SegmentationResults = strcat(R(kkk),subdirs(xxx));
 if ~exist(SegmentationResults, 'dir')
     mkdir(SegmentationResults);
 end
@@ -39,6 +44,7 @@ for k = 1:length(myFiles)
   baseFileName = myFiles(k).name;
   fullFileName = fullfile(myDir, baseFileName);
   if length(baseFileName) > 3
+   try
         img = imread(fullFileName) ;
         if size(img, 3) == 3
             img = img(:,:,1);
@@ -67,14 +73,18 @@ for k = 1:length(myFiles)
         
         Times(k) = endtime;
         Names{end+1} = myFiles(k).name;
+        catch ME
+            disp(ME)
+        end
   end
 end
 Names = Names';
 Times = Times';
 AVGTimes(xxx) = mean(Times);
-T= table(Names,Times);
+T= table(Times);
 writetable(T,strcat(SegmentationResults,'/data.csv'));
 end
 AVGTimes = AVGTimes';
 T2= table(AVGTimes);
-writetable(T2,'segmentation_results/data.csv');
+writetable(T2,strcat(R(kkk),'data.csv'));
+end

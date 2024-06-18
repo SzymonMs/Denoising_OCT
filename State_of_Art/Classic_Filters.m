@@ -19,11 +19,11 @@ AVGSSIMAVG = zeros(1,size(subdirs,1));
 AVGTimesAVG = zeros(1,size(subdirs,1));
 for xx = 1:size(subdirs,1)
 myDir = subdirs(xx);
-resultDirAverage = strcat('3_3_Average_Filter\',subdirs(xx));
+resultDirAverage = strcat('Average_Filter\',subdirs(xx));
 if ~exist(resultDirAverage, 'dir')
     mkdir(resultDirAverage);
 end
-resultDirMedian = strcat('3_3_Median_Filter\',subdirs(xx));
+resultDirMedian = strcat('Median_Filter\',subdirs(xx));
 if ~exist(resultDirMedian, 'dir')
     mkdir(resultDirMedian);
 end
@@ -118,5 +118,5 @@ AVGTimesMED=AVGTimesMED';
 AVGTimesAVG=AVGTimesAVG';
 T_Med= table(AVGPSNRMED,AVGSSIMMED,AVGTimesMED);
 T_Avg= table(AVGPSNRAVG,AVGSSIMAVG,AVGTimesAVG);
-writetable(T_Med,'11_11_Median_Filter/Median.csv');
-writetable(T_Avg,'11_11_Average_Filter/Average.csv');
+writetable(T_Med,'Median_Filter/Median.csv');
+writetable(T_Avg,'Average_Filter/Average.csv');

@@ -1,7 +1,7 @@
 addpath(fullfile('utilities'));
 net = denoisingNetwork('DnCNN');
 myDir = 'data';
-resultDir = 'OCTIDresults_DnCNN';
+resultDir = 'results';
 files = dir(myDir);
 isSubdir = [files.isdir] & ~ismember({files.name}, {'.', '..'});
 subdirs = strings(sum(isSubdir), 1);
