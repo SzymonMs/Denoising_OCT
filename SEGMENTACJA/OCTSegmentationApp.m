@@ -7,7 +7,7 @@
 clear all; clc;
 
 D = ['data'];
-R = ['result_to_images\'];
+R = ['segmentation_results\'];
 
 for kkk = 1:size(D,1)
 directory = 'data';
