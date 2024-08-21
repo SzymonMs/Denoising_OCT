@@ -1,4 +1,9 @@
 # Analysis of denoising solutions for OCT B-scans of the human retina 
+
+<p align="center">
+<img width="929" height="485" src="https://github.com/SzymonMs/Denoising_OCT/blob/main/result_of_segmentation.png">
+  <p align="center">
+
 eng. Szymon Murawski
 
 A repository of my master's thesis in vision systems, the topic of which was the analysis of solutions for denoising B-scans OCT of the human eye. During the preparation of the work, an analysis of specialist literature was carried out on the topic of noise removal from optical computed tomography images. The paper compares traditional techniques for denoising digital images (averaging and median filtering) with methods using neural networks: DnCNN, FFDNet and ADNet. .To evaluate the effectiveness of the denoising process, the segmentation of the layers of the human retina was used: ILM, IPL-INL, INL-OPL, IS-OS RPE and the average segmentation time of the layers. Segmentation was based on Caserel. Additionally, the PSNR, SSIM indices and the time consumption of B-scan denoising were analyzed. A detailed statistical analysis of the obtained results was performed. The software was prepared and is located in this repository. The work was carried out using:
